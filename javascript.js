@@ -9,16 +9,22 @@ function getComputerChoice() {
   const choice = ["rock", "paper", "scissors"];
 
   // * Math.random() returns a random floating-point between 0 and 1.
-  // * the method can then be scaled by multiplying it with the maximum desired integer.
+  // * the method can then be scaled by multiplying it with maximum random integer.
   // * Math.floor() method rounds down the floating-point value to an integer.
 
-  // TODO: Change up the comments to better clarify Math.random method.
   // * EXAMPLE
-  // * To return a number between 0 and 10(inclusive)
-  // * Math.floor(Math.random() * 10) + 1;
+  // * ------------------------------------------------------------------------------
+  // * To return a random number between 0 and 10 (inclusive)
+  // * Math.floor(Math.random() * 11)
+  // * Math.floor(Math.random() * (max + 1));
+  // * Math.random() is multiplied by 11, because 11 is not inclusive.
+  // * Math.floor() method is then used to round it down to an integer.
 
-  // * To return a number between 2 numbers
-  // * Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+  // * To return a number between 2 and 10 (inclusive)
+  // * Math.floor(Math.random() * (11 - 2)) + 2;
+  // * Math.floor(Math.random() * ((max + 1) - min))) + min;
+  // * ------------------------------------------------------------------------------
+
   let computerChoice = Math.floor(Math.random() * 3);
 
   return choice[computerChoice];
@@ -66,35 +72,49 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-// TODO: Fix error handling when invalid input is detected.
-// TODO: Game will restart from Round 1 if invalid answer is given mid-game.
 // * game function is called to start the game
 function game() {
+  // * Setting up the game
+  let validAnswer = false;
+  let playerSelection = "";
+  playerScore = 0;
+  computerScore = 0;
+
   for (i = 0; i < 5; i++) {
     // * Get computer choice each time it is called
     const computerSelection = getComputerChoice();
 
     // * Prompt user for a valid answer
-    let playerSelection = prompt(`Round ${i + 1}\nRock Paper Scissors?`, "");
-    if (playerSelection == null) {
-      alert("Cancelled");
-      break;
+    // * If an invalid answer is given, the while loop will prompt the user
+    // * without the for loop incrementing by 1
+    while (!validAnswer) {
+      playerSelection = prompt(`Round ${i + 1}\nRock Paper Scissors?`, "");
+
+      if (playerSelection == null) {
+        alert("Cancelled");
+        return; // * Breaks out of the function and nested loops
+      }
+
+      playerSelection = playerSelection.toLowerCase();
+
+      // * Logic check for valid answer
+      if (
+        playerSelection == "" ||
+        (playerSelection != "rock" &&
+          playerSelection != "paper" &&
+          playerSelection != "scissors")
+      ) {
+        alert("Please enter a valid input.");
+      } else {
+        validAnswer = true; // * Changed to true to break out of while loop
+      }
     }
 
-    playerSelection = playerSelection.toLowerCase();
+    // * playRound function is called to determine winner
+    console.log(playRound(playerSelection, computerSelection));
 
-    if (playerSelection == "") {
-      alert("Please pick a hand.");
-    } else if (
-      playerSelection != "rock" &&
-      playerSelection != "scissors" &&
-      playerSelection != "paper"
-    ) {
-      alert("Please enter a valid input.");
-    } else {
-      // * If user gives a valid answer, call playRound function to determine winner
-      console.log(playRound(playerSelection, computerSelection));
-    }
+    validAnswer = false; // * Changed to false for the next round
+    playerSelection = ""; // * Reset playerSelection to ''
   }
   calculateScore();
 }
