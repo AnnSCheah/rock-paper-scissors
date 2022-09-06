@@ -3,11 +3,33 @@ console.log("Hello World! Rock Paper Scissors Time!");
 let playerScore = 0;
 let computerScore = 0;
 
+const result = document.querySelector(".result");
+let playScore = document.querySelector(".p-score");
+let compScore = document.querySelector(".c-score");
+
+// * Event Listener that calls the playRound function
 const buttons = document.querySelectorAll(".button-container button");
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
-    console.log(playRound(e.currentTarget.value));
+    if (playerScore == 5 || computerScore == 5) {
+      return; // * stops the function from running after a winner is declared
+    }
+    result.textContent = playRound(e.currentTarget.value);
+    playScore.textContent = playerScore;
+    compScore.textContent = computerScore;
+    checkScore();
   });
+});
+
+const winner = document.querySelector(".winner");
+
+// * Reset the game
+const reset = document.querySelector(".reset");
+reset.addEventListener("click", () => {
+  playScore.textContent = computerScore = 0;
+  compScore.textContent = playerScore = 0;
+  result.textContent = "";
+  winner.textContent = "";
 });
 
 function getComputerChoice() {
@@ -132,4 +154,13 @@ function calculateScore() {
       `You lost! Player Score ${playerScore} to Computer Score ${computerScore}`
     );
   else console.log(`Tie Game! The score is tied at ${playerScore}`);
+}
+
+function checkScore() {
+  if (computerScore == 5) {
+    winner.textContent = "COMPUTER WINS!";
+  }
+  if (playerScore == 5) {
+    winner.textContent = "PLAYER WINS!";
+  }
 }
