@@ -3,6 +3,13 @@ console.log("Hello World! Rock Paper Scissors Time!");
 let playerScore = 0;
 let computerScore = 0;
 
+const buttons = document.querySelectorAll(".button-container button");
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    console.log(playRound(e.currentTarget.value));
+  });
+});
+
 function getComputerChoice() {
   const choice = ["rock", "paper", "scissors"];
 
@@ -29,7 +36,8 @@ function getComputerChoice() {
 }
 
 // * The logic of the game
-function playRound(playerSelection, computerSelection) {
+function playRound(playerSelection) {
+  let computerSelection = getComputerChoice();
   switch (playerSelection) {
     case "rock":
       if (computerSelection === "rock") {

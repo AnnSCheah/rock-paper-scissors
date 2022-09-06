@@ -7,9 +7,6 @@
 
     <link rel="stylesheet" href="style.css" />
 
-    <!-- * External Javascript -->
-    <script src="javascript.js"></script>
-
     <title>Project: Rock Paper Scissors</title>
   </head>
   <body>
@@ -17,10 +14,16 @@
     <div class="header">
       Rock Paper Scissors
       <div class="description">
-        Work in Progress! Only available in the console! Press F12 to Play (for
-        now).
+        Work in Progress. Now with interactive buttons! Click on one of the
+        buttons to select your choice.
       </div>
-      <div class="button"><button onclick="game()">Play</button></div>
+      <div class="button-container">
+        <button class="rock" value="rock">Rock</button>
+        <button class="paper" value="paper">Paper</button>
+        <button class="scissor" value="scissors">Scissors</button>
+      </div>
     </div>
   </body>
+  <!-- * External Javascript -->
+  <script src="javascript.js"></script>
 </html>
